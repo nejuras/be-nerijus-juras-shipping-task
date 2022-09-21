@@ -16,6 +16,6 @@ class OrderTest extends TestCase
     {
         $order = new Order();
 
-        $this->assertEquals('ups', $order->getShippingProviderKey());
+        $this->assertEquals('omniva', $order->getShippingProviderKey());
     }
 }
