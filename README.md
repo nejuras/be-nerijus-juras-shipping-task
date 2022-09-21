@@ -1,3 +1,12 @@
+### Local project set up
+To set up services run `docker-compose up -d --build`
+
+### Postman
+extra feature :)\
+\
+![Screenshot](docs/postman.png)
+
+
 ### Register Shipment
 Run command with provided shipping provider keys `omniva`, `ups`, `dhl`:\
 `php bin/console app:register-shipment --shippingProviderKey=omniva`
