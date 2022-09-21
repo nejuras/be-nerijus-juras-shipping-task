@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Model\ShippingProvider\Dhl;
 
-class Order
+class Dhl
 {
-    /** @var string */
-    private $id;
+    /** @var integer */
+    private $orderId;
 
     /** @var string */
     private $street;
@@ -22,31 +22,19 @@ class Order
     private $country;
 
     /**
-     * Shipping provider key.
-     * Other options might be `dhl`, `omniva`
-     * Feel free to modify this
-     *
-     * @return string
+     * @return integer
      */
-    public function getShippingProviderKey(): string
+    public function getOrderId(): int
     {
-        return 'omniva';
+        return $this->orderId;
     }
 
     /**
-     * @return string
+     * @param integer $orderId
      */
-    public function getId(): string
+    public function setOrderId(int $orderId): void
     {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId(string $id): void
-    {
-        $this->id = $id;
+        $this->orderId = $orderId;
     }
 
     /**

@@ -1,3 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+providers.register:
+  path: /providers/register
+  methods: [ POST ]
+  controller: App\Controller\ShippingProviderController::registerShipping

@@ -29,3 +29,10 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    _instanceof:
+        App\Model\StrategyInterface:
+            tags: [ shippingProvider.strategies ]
+
+    App\Model\ShippingProviderContext:
+        arguments:
+            $shippingProviderStrategies: !tagged_iterator shippingProvider.strategies
