@@ -2,6 +2,20 @@
     "php": {
         "version": "7.2"
     },
+    "phpunit/phpunit": {
+        "version": "8.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.7",
+            "ref": "b5b34fa22319ac1f7f6c180b30e160841c154a1e"
+        },
+        "files": [
+            ".env.test",
+            "phpunit.xml.dist",
+            "tests/bootstrap.php"
+        ]
+    },
     "psr/cache": {
         "version": "1.0.1"
     },
@@ -112,16 +126,28 @@
     "symfony/http-kernel": {
         "version": "v4.3.5"
     },
+    "symfony/messenger": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.3",
+            "ref": "25e3c964d3aee480b3acc3114ffb7940c89edfed"
+        },
+        "files": [
+            "config/packages/messenger.yaml"
+        ]
+    },
     "symfony/mime": {
         "version": "v4.3.5"
     },
     "symfony/phpunit-bridge": {
-        "version": "5.1",
+        "version": "6.1",
         "recipe": {
             "repo": "github.com/symfony/recipes",
-            "branch": "master",
-            "version": "5.1",
-            "ref": "bf16921ef8309a81d9f046e9b6369c46bcbd031f"
+            "branch": "main",
+            "version": "5.3",
+            "ref": "97cb3dc7b0f39c7cfc4b7553504c9d7b7795de96"
         },
         "files": [
             ".env.test",
