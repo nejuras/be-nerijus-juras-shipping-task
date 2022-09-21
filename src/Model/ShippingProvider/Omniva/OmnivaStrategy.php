@@ -7,8 +7,9 @@ namespace App\Model\ShippingProvider\Omniva;
 use App\Entity\Order;
 use App\Model\ShippingProvider;
 use App\Model\StrategyInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class OmnivaStrategy implements StrategyInterface
+class OmnivaStrategy extends AbstractController implements StrategyInterface
 {
     public const OMNIVA = 'omniva';
 
@@ -21,12 +22,10 @@ class OmnivaStrategy implements StrategyInterface
     {
         $omnivaShipping = $this->registerShipping($order);
 
-        $omniva[self::OMNIVA] = [
-            'postCode' => $omnivaShipping->getPostCode(),
-            'country' => $omnivaShipping->getCountry(),
-            'orderId' => $omnivaShipping->getOrderId(),
-            'pickUpPointId' => $omnivaShipping->getPickUpPointId(),
-        ];
+        $this->redirect($this->generateShippingProviderUrl($omnivaShipping));
+
+        $omniva[self::OMNIVA] = self::buildRegisterShippingProviderResult($omnivaShipping);
+
         return $omniva;
     }
 
@@ -39,5 +38,21 @@ class OmnivaStrategy implements StrategyInterface
         $omniva->setPickUpPointId('1');
 
         return $omniva;
+    }
+
+    public static function buildRegisterShippingProviderResult($omnivaShipping): array
+    {
+        return
+            [
+                'postCode' => $omnivaShipping->getPostCode(),
+                'country' => $omnivaShipping->getCountry(),
+                'orderId' => $omnivaShipping->getOrderId(),
+                'pickUpPointId' => $omnivaShipping->getPickUpPointId(),
+            ];
+    }
+
+    public function generateShippingProviderUrl($omnivaShipping): string
+    {
+        return 'omnivafake.com/register?' . http_build_query(self::buildRegisterShippingProviderResult($omnivaShipping));
     }
 }

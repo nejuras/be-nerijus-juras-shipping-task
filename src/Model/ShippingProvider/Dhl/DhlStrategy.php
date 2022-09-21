@@ -7,8 +7,9 @@ namespace App\Model\ShippingProvider\Dhl;
 use App\Entity\Order;
 use App\Model\ShippingProvider;
 use App\Model\StrategyInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class DhlStrategy implements StrategyInterface
+class DhlStrategy extends AbstractController implements StrategyInterface
 {
     public const DHL = 'dhl';
 
@@ -21,13 +22,10 @@ class DhlStrategy implements StrategyInterface
     {
         $dhlShipping = $this->registerShipping($order);
 
-        $dhl[self::DHL] = [
-            'postCode' => $dhlShipping->getPostCode(),
-            'country' => $dhlShipping->getCountry(),
-            'city' => $dhlShipping->getCity(),
-            'orderId' => $dhlShipping->getOrderId(),
-            'street' => $dhlShipping->getStreet(),
-        ];
+        $this->redirect($this->generateShippingProviderUrl($dhlShipping));
+
+        $dhl[self::DHL] = self::buildRegisterShippingProviderResult($dhlShipping);
+
         return $dhl;
     }
 
@@ -41,5 +39,22 @@ class DhlStrategy implements StrategyInterface
         $dhl->setStreet('Algirdo');
 
         return $dhl;
+    }
+
+    public static function buildRegisterShippingProviderResult($dhlShipping): array
+    {
+        return
+            [
+                'postCode' => $dhlShipping->getPostCode(),
+                'country' => $dhlShipping->getCountry(),
+                'city' => $dhlShipping->getCity(),
+                'orderId' => $dhlShipping->getOrderId(),
+                'street' => $dhlShipping->getStreet(),
+            ];
+    }
+
+    public function generateShippingProviderUrl($dhlShipping): string
+    {
+        return 'dhlfake.com/register?' . http_build_query(self::buildRegisterShippingProviderResult($dhlShipping));
     }
 }
