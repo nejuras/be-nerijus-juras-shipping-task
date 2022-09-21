@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CreateCommand extends Command
+class RegisterShippingCommand extends Command
 {
     protected static $defaultName = 'app:register-shipment';
 
