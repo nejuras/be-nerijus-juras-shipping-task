@@ -24,7 +24,7 @@ class RegisterShippingCommand extends Command
         parent::__construct();
 
         $this->shippingProviderContext = $shippingProviderContext;
-        $this->order = $order;
+        $this->order = $order->createOrder();
     }
 
     protected function configure(): void
@@ -37,10 +37,10 @@ class RegisterShippingCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shippingProviderKey = $input->getOption('shippingProviderKey') ?: 'ups';
+        $shippingProviderKey = $input->getOption('shippingProviderKey') ?: $this->order->getShippingProviderKey();
 
         $data = new ShippingProvider($shippingProviderKey);
-        $registeredShippingProvider = $this->shippingProviderContext->handle($data, $this->order->createOrder());
+        $registeredShippingProvider = $this->shippingProviderContext->handle($data, $this->order);
         $shippingProvider = json_encode($registeredShippingProvider, JSON_PRETTY_PRINT);
 
         $output->write("<fg=green>   Shipment registered!</>", true);
