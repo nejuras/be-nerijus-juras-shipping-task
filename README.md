@@ -1,3 +1,7 @@
+### Register Shipment
+Run command with provided shipping provider keys `omniva`, `ups`, `dhl`:\
+`php bin/console app:register-shipment --shippingProviderKey=omniva`
+
 # PHP Developer Exercise for Boozt
 
 ## Prerequisites
