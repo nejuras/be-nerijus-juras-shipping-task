@@ -42,4 +42,4 @@ We will evaluate code based on these criteria:
 - Code functions as specified in the Problem
 - Whether tests pass (`php bin/phpunit ./tests`)
 - Code readability and quality
-- System flexibility and extensibility
+- System flexibility and extensibility.
