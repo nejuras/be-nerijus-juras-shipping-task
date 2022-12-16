@@ -7,11 +7,18 @@ namespace App\Model\ShippingProvider\Ups;
 use App\Entity\Order;
 use App\Model\ShippingProvider;
 use App\Model\StrategyInterface;
+use App\Service\Order as OrderEntity;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UpsStrategy extends AbstractController implements StrategyInterface
 {
     public const UPS = 'ups';
+    private const SHIPPING_REGISTER_URL = 'https://upsfake.com/register';
+
+    public function __construct(private readonly OrderEntity $orderEntity)
+    {
+    }
 
     public function canProcess(ShippingProvider $data): bool
     {
@@ -20,28 +27,24 @@ class UpsStrategy extends AbstractController implements StrategyInterface
 
     public function process(ShippingProvider $data, Order $order): array
     {
-        $upsShipping = $this->registerShipping($order);
+        $shipping = $this->createShipping($order);
 
-        $this->redirect($this->generateShippingProviderUrl($upsShipping));
+        $result = $this->buildRegisterShippingProviderResult($shipping);
 
-        $ups[self::UPS] = self::buildRegisterShippingProviderResult($upsShipping);
-
-        return $ups;
+        return $this->orderEntity->registerShipping(self::SHIPPING_REGISTER_URL, $result);
     }
 
-    public function registerShipping(Order $order): Ups
+    public function createShipping(Order $order): Ups
     {
-        $ups = new Ups();
-        $ups->setAddress('Mindaugo g. 27');
-        $ups->setOrderId((int)$order->getId());
-        $ups->setCountry('Lithuania');
-        $ups->setTown('Vilnius');
-        $ups->setZipCode('03225');
-
-        return $ups;
+        return (new Ups())
+            ->setAddress('Mindaugo g. 27')
+            ->setOrderId((int)$order->getId())
+            ->setCountry('Lithuania')
+            ->setTown('Vilnius')
+            ->setZipCode('03225');
     }
 
-    public static function buildRegisterShippingProviderResult($upsShipping): array
+    public function buildRegisterShippingProviderResult($upsShipping): array
     {
         return
             [
@@ -51,10 +54,5 @@ class UpsStrategy extends AbstractController implements StrategyInterface
                 'orderId' => $upsShipping->getOrderId(),
                 'street' => $upsShipping->getStreet(),
             ];
-    }
-
-    public function generateShippingProviderUrl($upsShipping): string
-    {
-        return 'upsfake.com/register?' . http_build_query(self::buildRegisterShippingProviderResult($upsShipping));
     }
 }

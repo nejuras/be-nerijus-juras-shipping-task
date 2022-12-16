@@ -26,9 +26,6 @@ class RegisterShippingCommand extends Command
         $this->addOption('shippingProviderKey', null, InputOption::VALUE_REQUIRED);
     }
 
-    /**
-     * @throws \Exception
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $order = $this->order->createOrder();

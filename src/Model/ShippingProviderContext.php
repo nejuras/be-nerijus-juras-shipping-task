@@ -9,7 +9,7 @@ class ShippingProviderContext
     private array $strategies = [];
 
     public function __construct(
-        iterable $shippingProviderStrategies
+        iterable $shippingProviderStrategies,
     ) {
         foreach ($shippingProviderStrategies as $shippingProviderStrategy) {
             $this->addStrategy($shippingProviderStrategy);
@@ -21,9 +21,6 @@ class ShippingProviderContext
         $this->strategies[] = $strategy;
     }
 
-    /**
-     * @throws \Exception
-     */
     public function handle($data, $order): array
     {
         foreach ($this->strategies as $strategy) {
@@ -35,12 +32,9 @@ class ShippingProviderContext
         $this->throwUnprocessableStrategyException($data);
     }
 
-    /**
-     * @throws \Exception
-     */
     private function throwUnprocessableStrategyException(ShippingProvider $data): void
     {
-        throw new \Exception(
+        throw new \RuntimeException(
             "Can not process strategy with shipping provider key: " . $data->getShippingProviderKey()
         );
     }

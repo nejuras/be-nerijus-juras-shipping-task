@@ -31,9 +31,11 @@ class Order
         return $this->id;
     }
 
-    public function setId(string $id): void
+    public function setId(string $id): self
     {
         $this->id = $id;
+
+        return $this;
     }
 
     public function getStreet(): string
@@ -41,9 +43,11 @@ class Order
         return $this->street;
     }
 
-    public function setStreet(string $street): void
+    public function setStreet(string $street): self
     {
         $this->street = $street;
+
+        return $this;
     }
 
     public function getPostCode(): string
@@ -51,9 +55,11 @@ class Order
         return $this->postCode;
     }
 
-    public function setPostCode(string $postCode): void
+    public function setPostCode(string $postCode): self
     {
         $this->postCode = $postCode;
+
+        return $this;
     }
 
     public function getCity(): string
@@ -61,9 +67,11 @@ class Order
         return $this->city;
     }
 
-    public function setCity(string $city): void
+    public function setCity(string $city): self
     {
         $this->city = $city;
+
+        return $this;
     }
 
     public function getCountry(): string
@@ -71,8 +79,10 @@ class Order
         return $this->country;
     }
 
-    public function setCountry(string $country): void
+    public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
     }
 }

@@ -19,9 +19,11 @@ class Omniva
         return $this->orderId;
     }
 
-    public function setOrderId(int $orderId): void
+    public function setOrderId(int $orderId): self
     {
         $this->orderId = $orderId;
+
+        return $this;
     }
 
     public function getPickUpPointId(): string
@@ -29,9 +31,11 @@ class Omniva
         return $this->pickUpPointId;
     }
 
-    public function setPickUpPointId(string $pickUpPointId): void
+    public function setPickUpPointId(string $pickUpPointId): self
     {
         $this->pickUpPointId = $pickUpPointId;
+
+        return $this;
     }
 
     public function getPostCode(): string
@@ -39,9 +43,11 @@ class Omniva
         return $this->postCode;
     }
 
-    public function setPostCode(string $postCode): void
+    public function setPostCode(string $postCode): self
     {
         $this->postCode = $postCode;
+
+        return $this;
     }
 
     public function getCountry(): string
@@ -49,8 +55,10 @@ class Omniva
         return $this->country;
     }
 
-    public function setCountry(string $country): void
+    public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
     }
 }

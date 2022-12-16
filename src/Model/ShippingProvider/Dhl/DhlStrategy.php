@@ -7,11 +7,17 @@ namespace App\Model\ShippingProvider\Dhl;
 use App\Entity\Order;
 use App\Model\ShippingProvider;
 use App\Model\StrategyInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Service\Order as OrderEntity;
+use JetBrains\PhpStorm\ArrayShape;
 
-class DhlStrategy extends AbstractController implements StrategyInterface
+class DhlStrategy implements StrategyInterface
 {
     public const DHL = 'dhl';
+    private const SHIPPING_REGISTER_URL = 'https://dhlfake.com/register';
+
+    public function __construct(private readonly OrderEntity $orderEntity)
+    {
+    }
 
     public function canProcess(ShippingProvider $data): bool
     {
@@ -20,28 +26,31 @@ class DhlStrategy extends AbstractController implements StrategyInterface
 
     public function process(ShippingProvider $data, Order $order): array
     {
-        $dhlShipping = $this->registerShipping($order);
+        $shipping = $this->createShipping($order);
 
-        $this->redirect($this->generateShippingProviderUrl($dhlShipping));
+        $result = $this->buildRegisterShippingProviderResult($shipping);
 
-        $dhl[self::DHL] = self::buildRegisterShippingProviderResult($dhlShipping);
-
-        return $dhl;
+        return $this->orderEntity->registerShipping(self::SHIPPING_REGISTER_URL, $result);
     }
 
-    public function registerShipping(Order $order): Dhl
+    public function createShipping(Order $order): Dhl
     {
-        $dhl = new Dhl();
-        $dhl->setPostCode('03218');
-        $dhl->setOrderId((int)$order->getId());
-        $dhl->setCountry('Lithuania');
-        $dhl->setCity('Kaunas');
-        $dhl->setStreet('Algirdo');
-
-        return $dhl;
+        return (new Dhl())
+            ->setPostCode('03218')
+            ->setOrderId((int)$order->getId())
+            ->setCountry('Lithuania')
+            ->setCity('Kaunas')
+            ->setStreet('Algirdo');
     }
 
-    public static function buildRegisterShippingProviderResult($dhlShipping): array
+    #[ArrayShape([
+        'postCode' => "mixed",
+        'country' => "mixed",
+        'city' => "mixed",
+        'orderId' => "mixed",
+        'street' => "mixed",
+    ])]
+    public function buildRegisterShippingProviderResult($dhlShipping): array
     {
         return
             [
@@ -51,10 +60,5 @@ class DhlStrategy extends AbstractController implements StrategyInterface
                 'orderId' => $dhlShipping->getOrderId(),
                 'street' => $dhlShipping->getStreet(),
             ];
-    }
-
-    public function generateShippingProviderUrl($dhlShipping): string
-    {
-        return 'dhlfake.com/register?' . http_build_query(self::buildRegisterShippingProviderResult($dhlShipping));
     }
 }

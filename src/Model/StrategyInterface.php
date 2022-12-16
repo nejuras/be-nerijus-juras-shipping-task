@@ -8,5 +8,5 @@ interface StrategyInterface
 {
     public function canProcess(ShippingProvider $data): bool;
     public function process(ShippingProvider $data, Order $order): array;
-    public function registerShipping(Order $order);
+    public function createShipping(Order $order);
 }

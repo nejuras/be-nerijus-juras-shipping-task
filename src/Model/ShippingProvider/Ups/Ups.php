@@ -6,98 +6,73 @@ namespace App\Model\ShippingProvider\Ups;
 
 class Ups
 {
-    /** @var integer */
-    private $orderId;
+    private int $orderId;
 
-    /** @var string */
-    private $address;
+    private string $address;
 
-    /** @var string */
-    private $zipCode;
+    private string $zipCode;
 
-    /** @var string */
-    private $town;
+    private string $town;
 
-    /** @var string */
-    private $country;
+    private string $country;
 
-    /**
-     * @return integer
-     */
     public function getOrderId(): int
     {
         return $this->orderId;
     }
 
-    /**
-     * @param integer $orderId
-     */
-    public function setOrderId(int $orderId): void
+    public function setOrderId(int $orderId): self
     {
         $this->orderId = $orderId;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getStreet(): string
     {
         return $this->address;
     }
 
-    /**
-     * @param string $address
-     */
-    public function setAddress(string $address): void
+    public function setAddress(string $address): self
     {
         $this->address = $address;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getZipCode(): string
     {
         return $this->zipCode;
     }
 
-    /**
-     * @param string $zipCode
-     */
-    public function setZipCode(string $zipCode): void
+    public function setZipCode(string $zipCode): self
     {
         $this->zipCode = $zipCode;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCity(): string
     {
         return $this->town;
     }
 
-    /**
-     * @param string $town
-     */
-    public function setTown(string $town): void
+    public function setTown(string $town): self
     {
         $this->town = $town;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getCountry(): string
     {
         return $this->country;
     }
 
-    /**
-     * @param string $country
-     */
-    public function setCountry(string $country): void
+    public function setCountry(string $country): self
     {
         $this->country = $country;
+
+        return $this;
     }
 }
