@@ -14,17 +14,11 @@ class RegisterShippingCommand extends Command
 {
     protected static $defaultName = 'app:register-shipment';
 
-    private $shippingProviderContext;
-    private $order;
-
     public function __construct(
-        ShippingProviderContext $shippingProviderContext,
-        MockOrder $order
+        private readonly ShippingProviderContext $shippingProviderContext,
+        private readonly MockOrder $order,
     ) {
         parent::__construct();
-
-        $this->shippingProviderContext = $shippingProviderContext;
-        $this->order = $order->createOrder();
     }
 
     protected function configure(): void
@@ -37,15 +31,17 @@ class RegisterShippingCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $shippingProviderKey = $input->getOption('shippingProviderKey') ?: $this->order->getShippingProviderKey();
+        $order = $this->order->createOrder();
+        $shippingProviderKey = $input->getOption('shippingProviderKey') ?: $order->getShippingProviderKey();
 
         $data = new ShippingProvider($shippingProviderKey);
-        $registeredShippingProvider = $this->shippingProviderContext->handle($data, $this->order);
-//        $shippingProvider = json_encode($registeredShippingProvider, JSON_PRETTY_PRINT);
-//dump($registeredShippingProvider);
-        $output->write("<fg=green>   {$registeredShippingProvider['message']}</>", true);
+        $registeredShippingProvider = $this->shippingProviderContext->handle($data, $order);
+
         $output->write("", true);
-        $output->write("<fg=green>   {$registeredShippingProvider['content']}</>", true);
+        $output->write("<fg=green>   $shippingProviderKey</>", true);
+        $output->write("<fg=green>   {$registeredShippingProvider['message']}</>", true);
+        $output->write("<fg=red>   {$registeredShippingProvider['content']}</>", true);
+        $output->write("", true);
 
         return 0;
     }

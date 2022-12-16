@@ -18,11 +18,7 @@ class OmnivaStrategy implements StrategyInterface
     private const URL = 'https://omnivafake.com';
     private const PATH = '/register';
 
-
-    /**
-     * @var ClientInterface
-     */
-    private $httpClient;
+    private ClientInterface $httpClient;
 
     public function __construct()
     {
@@ -43,7 +39,7 @@ class OmnivaStrategy implements StrategyInterface
 
     public function registerShipping(Order $order): Omniva
     {
-        $omniva = (new Omniva());
+        $omniva = new Omniva();
         $omniva->setPostCode('03210');
         $omniva->setOrderId((int)$order->getId());
         $omniva->setCountry('Lithuania');
@@ -63,12 +59,12 @@ class OmnivaStrategy implements StrategyInterface
             ];
     }
 
-    public function generateShippingProviderUrl()
+    public function generateShippingProviderUrl(): string
     {
         return self::URL . self::PATH;
     }
 
-    private function getShippingData($shipping)
+    private function getShippingData($shipping): array
     {
         $url = $this->generateShippingProviderUrl();
         try {
@@ -83,7 +79,7 @@ class OmnivaStrategy implements StrategyInterface
         return $response;
     }
 
-    private function getResponse($post)
+    private function getResponse($post): array
     {
         return
             [

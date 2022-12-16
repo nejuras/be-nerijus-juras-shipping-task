@@ -12,33 +12,21 @@ use App\Model\ShippingProvider\Ups\UpsStrategy;
 use App\Model\ShippingProviderContext;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Prophecy\ObjectProphecy;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class ShippingProviderContextTest extends TestCase
 {
-    /**
-     * @var ShippingProviderContext|ObjectProphecy
-     */
-    private $shippingProviderContext;
+    use ProphecyTrait;
 
-    /**
-     * @var UpsStrategy|ObjectProphecy
-     */
-    private $upsStrategy;
+    private ShippingProviderContext|ObjectProphecy $shippingProviderContext;
 
-    /**
-     * @var OmnivaStrategy|ObjectProphecy
-     */
-    private $omnivaStrategy;
+    private ObjectProphecy|UpsStrategy $upsStrategy;
 
-    /**
-     * @var DhlStrategy|ObjectProphecy
-     */
-    private $dhlStrategy;
+    private ObjectProphecy|OmnivaStrategy $omnivaStrategy;
 
-    /**
-     * @var Order
-     */
-    private $order;
+    private ObjectProphecy|DhlStrategy $dhlStrategy;
+
+    private Order $order;
 
     protected function setUp(): void
     {

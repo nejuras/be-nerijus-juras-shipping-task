@@ -10,15 +10,14 @@ class ShipmentError
 
     public static function createError(
         string $message
-    )
-    {
+    ): array {
         return [
             "message" => self::STATUS_CHANGE_MESSAGE,
             "content" => $message,
         ];
     }
 
-    public static function register($message)
+    public static function register($message): array
     {
         return self::createError($message);
     }

@@ -6,7 +6,7 @@ namespace App\Model;
 
 class ShippingProviderContext
 {
-    private $strategies = [];
+    private array $strategies = [];
 
     public function __construct(
         iterable $shippingProviderStrategies
@@ -16,7 +16,7 @@ class ShippingProviderContext
         }
     }
 
-    public function addStrategy(StrategyInterface $strategy)
+    public function addStrategy(StrategyInterface $strategy): void
     {
         $this->strategies[] = $strategy;
     }

@@ -8,15 +8,10 @@ use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
 
 class ShippingProviderHandler implements MessageHandlerInterface
 {
-    private $shippingProviderContext;
-    private $order;
-
     public function __construct(
-        ShippingProviderContext $shippingProviderContext,
-        MockOrder $order
+        private readonly ShippingProviderContext $shippingProviderContext,
+        private readonly MockOrder $order
     ) {
-        $this->shippingProviderContext = $shippingProviderContext;
-        $this->order = $order;
     }
 
     /**

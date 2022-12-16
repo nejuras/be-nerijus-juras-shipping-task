@@ -6,12 +6,9 @@ namespace App\Model;
 
 class ShippingProvider
 {
-    private $shippingProviderKey;
-
     public function __construct(
-        $shippingProviderKey
+        private readonly string $shippingProviderKey
     ) {
-        $this->shippingProviderKey = $shippingProviderKey;
     }
 
     public function getShippingProviderKey(): string
