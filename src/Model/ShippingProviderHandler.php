@@ -4,31 +4,26 @@ declare(strict_types=1);
 
 namespace App\Model;
 
+use App\Service\Validator\Validator;
+use App\Service\Validator\ValidatorConstraintsInterface;
 use Symfony\Component\Messenger\Handler\MessageHandlerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use JMS\Serializer\ArrayTransformerInterface;
 
 class ShippingProviderHandler implements MessageHandlerInterface
 {
     public function __construct(
         private readonly ShippingProviderContext $shippingProviderContext,
         private readonly MockOrder $order,
-        protected ValidatorInterface $validator,
-        protected ShippingProviderConstraints $shippingProviderConstraints,
-        private readonly ArrayTransformerInterface $arrayTransformer,
+        protected Validator $validator,
+        protected ValidatorConstraintsInterface $validatorConstraints,
     ) {
     }
 
-    public function __invoke(ShippingProvider $data)
+    public function __invoke(ShippingProvider $data): array
     {
-        $errors = $this->validator->validate(
-            $this->arrayTransformer->toArray($data),
-            $this->shippingProviderConstraints->constraints(),
+        $this->validator->validate(
+            $data,
+            $this->validatorConstraints,
         );
-
-        if ($errors->count()) {
-            return $errors[0]->getMessage();
-        }
 
         return $this->shippingProviderContext->handle($data, $this->order->createOrder());
     }
