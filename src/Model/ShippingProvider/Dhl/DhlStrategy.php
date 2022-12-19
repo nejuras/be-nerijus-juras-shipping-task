@@ -6,13 +6,13 @@ namespace App\Model\ShippingProvider\Dhl;
 
 use App\Entity\Order;
 use App\Model\ShippingProvider;
+use App\Model\ShippingProvider\ShippingProviderEnum;
 use App\Model\StrategyInterface;
 use App\Service\Order as OrderEntity;
 use JetBrains\PhpStorm\ArrayShape;
 
 class DhlStrategy implements StrategyInterface
 {
-    public const DHL = 'dhl';
     private const SHIPPING_REGISTER_URL = 'https://dhlfake.com/register';
 
     public function __construct(private readonly OrderEntity $orderEntity)
@@ -21,7 +21,7 @@ class DhlStrategy implements StrategyInterface
 
     public function canProcess(ShippingProvider $data): bool
     {
-        return $data->getShippingProviderKey() === self::DHL;
+        return $data->getShippingProviderKey() === ShippingProviderEnum::DHL->value;
     }
 
     public function process(ShippingProvider $data, Order $order): array

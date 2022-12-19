@@ -16,6 +16,8 @@ class Order
 
     private string $country;
 
+    private string $shippingProviderKey = 'omniva';
+
     /**
      * Shipping provider key.
      * Other options might be `dhl`, `omniva`
@@ -23,7 +25,7 @@ class Order
      */
     public function getShippingProviderKey(): string
     {
-        return 'omniva';
+        return $this->shippingProviderKey;
     }
 
     public function getId(): string

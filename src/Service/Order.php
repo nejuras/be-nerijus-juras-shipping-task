@@ -23,9 +23,8 @@ class Order
     public function registerShipping($shippingRegisterUrl, $result): array
     {
         try {
-            $post = $this->httpClient->post($shippingRegisterUrl, $result);
-
-            $response = $this->getResponse($post);
+            $postRequest = $this->httpClient->post($shippingRegisterUrl, $result);
+            $response = $this->getResponse($postRequest);
         } catch (GuzzleException $e) {
             $response = ShipmentError::register($e->getMessage());
         }
@@ -34,12 +33,12 @@ class Order
     }
 
     #[ArrayShape(["message" => "string", "content" => ""])]
-    private function getResponse($post): array
+    public function getResponse($postRequest): array
     {
         return
             [
                 "message" => self::SHIPMENT_REGISTERED_MESSAGE,
-                "content" => $post->getBody()->getContents(),
+                "content" => $postRequest->getBody()->getContents(),
             ];
     }
 }

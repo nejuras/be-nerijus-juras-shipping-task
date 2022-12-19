@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Order;
 use App\Model\ShippingProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\HandleTrait;
 use Symfony\Component\Messenger\MessageBusInterface;
@@ -17,15 +17,25 @@ class ShippingProviderController extends AbstractController
     use HandleTrait;
 
     public function __construct(
-        MessageBusInterface $messageBus
+        MessageBusInterface $messageBus,
     ) {
         $this->messageBus = $messageBus;
     }
 
-    public function registerShipping(SerializerInterface $serializer): Response
+    public function registerShipping(Request $request, SerializerInterface $serializer): Response
     {
-        $result = $this->handle(new ShippingProvider((new Order())->getShippingProviderKey()));
+        $shippingProviderDataData = $this->getShippingProviderData($request);
+
+        $result = $this->handle($shippingProviderDataData);
 
         return new Response($serializer->serialize($result, 'json'), Response::HTTP_CREATED);
+    }
+
+
+    public function getShippingProviderData(Request $request): ShippingProvider
+    {
+        $data = json_decode($request->getContent(), true);
+
+        return new ShippingProvider($data['shippingProviderKey']);
     }
 }

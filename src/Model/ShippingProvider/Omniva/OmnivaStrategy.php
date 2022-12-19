@@ -8,10 +8,10 @@ use App\Entity\Order;
 use App\Service\Order as OrderEntity;
 use App\Model\ShippingProvider;
 use App\Model\StrategyInterface;
+use JetBrains\PhpStorm\ArrayShape;
 
 class OmnivaStrategy implements StrategyInterface
 {
-    public const OMNIVA = 'omniva';
     private const SHIPPING_REGISTER_URL = 'https://omnivafake.com/register';
 
     public function __construct(private readonly OrderEntity $orderEntity)
@@ -20,7 +20,7 @@ class OmnivaStrategy implements StrategyInterface
 
     public function canProcess(ShippingProvider $data): bool
     {
-        return $data->getShippingProviderKey() === self::OMNIVA;
+        return $data->getShippingProviderKey() === ShippingProvider\ShippingProviderEnum::OMNIVA->value;
     }
 
     public function process(ShippingProvider $data, Order $order): array
@@ -41,6 +41,12 @@ class OmnivaStrategy implements StrategyInterface
             ->setPickUpPointId('1');
     }
 
+    #[ArrayShape([
+        'postCode' => "mixed",
+        'country' => "mixed",
+        'orderId' => "mixed",
+        'pickUpPointId' => "mixed",
+    ])]
     public function buildRegisterShippingProviderResult($shipping): array
     {
         return

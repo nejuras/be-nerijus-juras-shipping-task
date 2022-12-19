@@ -1,4 +1,28 @@
 {
+    "doctrine/annotations": {
+        "version": "1.14",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "a2759dd6123694c8d901d0ec80006e044c2e6457"
+        },
+        "files": [
+            "config/routes/annotations.yaml"
+        ]
+    },
+    "jms/serializer-bundle": {
+        "version": "5.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "4.0",
+            "ref": "cc04e10cf7171525b50c18b36004edf64cb478be"
+        },
+        "files": [
+            "config/packages/jms_serializer.yaml"
+        ]
+    },
     "php": {
         "version": "7.2"
     },
@@ -199,6 +223,19 @@
     },
     "symfony/test-pack": {
         "version": "v1.0.6"
+    },
+    "symfony/validator": {
+        "version": "5.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "4.3",
+            "ref": "3eb8df139ec05414489d55b97603c5f6ca0c44cb"
+        },
+        "files": [
+            "config/packages/test/validator.yaml",
+            "config/packages/validator.yaml"
+        ]
     },
     "symfony/var-dumper": {
         "version": "v5.2.6"

@@ -7,7 +7,7 @@ namespace App\Model;
 class ShippingProvider
 {
     public function __construct(
-        private readonly string $shippingProviderKey
+        private readonly string $shippingProviderKey,
     ) {
     }
 

@@ -6,6 +6,7 @@ namespace App\Model\ShippingProvider\Ups;
 
 use App\Entity\Order;
 use App\Model\ShippingProvider;
+use App\Model\ShippingProvider\ShippingProviderEnum;
 use App\Model\StrategyInterface;
 use App\Service\Order as OrderEntity;
 use JetBrains\PhpStorm\ArrayShape;
@@ -13,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class UpsStrategy extends AbstractController implements StrategyInterface
 {
-    public const UPS = 'ups';
     private const SHIPPING_REGISTER_URL = 'https://upsfake.com/register';
 
     public function __construct(private readonly OrderEntity $orderEntity)
@@ -22,7 +22,7 @@ class UpsStrategy extends AbstractController implements StrategyInterface
 
     public function canProcess(ShippingProvider $data): bool
     {
-        return $data->getShippingProviderKey() === self::UPS;
+        return $data->getShippingProviderKey() === ShippingProviderEnum::UPS->value;
     }
 
     public function process(ShippingProvider $data, Order $order): array
@@ -44,6 +44,13 @@ class UpsStrategy extends AbstractController implements StrategyInterface
             ->setZipCode('03225');
     }
 
+    #[ArrayShape([
+        'zipCode' => "mixed",
+        'country' => "mixed",
+        'city' => "mixed",
+        'orderId' => "mixed",
+        'street' => "mixed"
+    ])]
     public function buildRegisterShippingProviderResult($upsShipping): array
     {
         return

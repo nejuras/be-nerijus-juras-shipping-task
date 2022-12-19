@@ -8,7 +8,7 @@ class ShipmentError
 {
     public const STATUS_CHANGE_MESSAGE = 'Shipment is not registered!';
 
-    public static function createError(string $message): array
+    public static function create(string $message): array
     {
         return [
             "message" => self::STATUS_CHANGE_MESSAGE,
@@ -18,6 +18,6 @@ class ShipmentError
 
     public static function register($message): array
     {
-        return self::createError($message);
+        return self::create($message);
     }
 }
